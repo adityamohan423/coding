@@ -11,18 +11,21 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* node){
-        if(!node) return 0;
+    int deff(TreeNode* root){
+        if(!root) return 0;
 
-        int left = dfs(node->left);
-        int right = dfs(node->right);
+        int left = deff(root->left);
+        int right = deff(root->right);
 
-        if(left == INT_MIN || right == INT_MIN) return INT_MIN;
+        if(left == -1 || right == -1) return -1;
+        if(abs(left-right) > 1) return -1;
 
-        return (abs(left-right) <= 1 ? max(left,right)+1 : INT_MIN);
+        return 1 + max(left,right);
     }
     bool isBalanced(TreeNode* root) {
-        if(dfs(root) == INT_MIN) return false;
-        return true;
+        if(!root) return 1;
+        int difi = deff(root);
+        if(difi == -1) return 0;
+        return difi; 
     }
 };
