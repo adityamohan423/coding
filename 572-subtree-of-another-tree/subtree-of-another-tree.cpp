@@ -11,27 +11,28 @@
  */
 class Solution {
 public:
-    bool isSub(TreeNode* root, TreeNode* subRoot){
-        if(!root && !subRoot) return true;
+    bool checkSub(TreeNode* root, TreeNode* subRoot){
+        if(!root && !subRoot) return true;  
         if(!root || !subRoot) return false;
 
         if(root->val != subRoot->val) return false;
-        
-        return isSub(root->left,subRoot->left) && isSub(root->right,subRoot->right);
-    }
-    bool helper(TreeNode* root, TreeNode* subRoot){
-        if(!root) return false;
 
-        bool isTrue = isSub(root,subRoot);
-        bool left = isSubtree(root->left,subRoot);
-        bool right = isSubtree(root->right,subRoot); 
+        bool left = checkSub(root->left,subRoot->left);
+        bool right = checkSub(root->right,subRoot->right);
 
-        return left || right || isTrue;
+        return left && right;
+
     }
+
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if(!root && !subRoot) return true;
-        if(!root || !subRoot) return false;
+        if(!root) return 0;
 
-        return helper(root,subRoot);
+        bool ans = checkSub(root,subRoot);
+        if(ans == true) return 1;
+
+        bool left = isSubtree(root->left,subRoot);
+        bool right = isSubtree(root->right,subRoot);
+
+        return left || right;
     }
 };
